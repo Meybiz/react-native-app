@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screen/LoginScreen.jsx';
-import UserScreen from './screen/ProfileScreen.jsx';
+import UserScreen from './screen/UserScreen.jsx';
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import RegistrationScreen from './screen/RegistrationScreen.jsx';
+import RootScreen from './screen/RootScreen.jsx';
 
 const Stack = createStackNavigator();
 const styles = StyleSheet.create({
@@ -20,8 +20,8 @@ const App = observer(() => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name='Root' component={RootScreen}/>
         <Stack.Screen name='Login' component={LoginScreen}/>
-        <Stack.Screen name='Reg' component={RegistrationScreen}/>
         <Stack.Screen name='User' component={UserScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
