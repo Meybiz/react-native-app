@@ -10,7 +10,6 @@ class UserStore {
 
     userData(data) {
         this.user = data
-        console.log(data.passwords)
     }
 }
 

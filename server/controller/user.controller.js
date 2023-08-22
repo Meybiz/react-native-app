@@ -34,9 +34,17 @@ class UserController {
     }
     async updatePassword(req, res) {
         //переписать для сравнения паролей старых. Сейчас при любом старом пароле н меняет.
-        const {id, newPassword} = req.body
-        const user = await db.query('UPDATE personbases set passwords = $1 where id = $2 RETURNING *', [newPassword, id])
-        res.json(user.rows[0])
+        const {id, newPassword, oldPassword} = req.body
+        const oneUser = await db.query('SELECT * FROM personbases where id = $1', [id])
+        if (oneUser.rows[0].passwords !== oldPassword) {
+            console.log(oneUser.rows[0].passwords)
+            console.log()
+            console.log('Пароли не совпадают')
+        } else {
+            const user = await db.query('UPDATE personbases set passwords = $1 where id = $2 RETURNING *', [newPassword, id])
+            res.json(user.rows[0])
+        }
+        
     }
         
     

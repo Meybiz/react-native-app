@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import style from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-
+import * as Keychain from 'react-native-keychain'
 
 
 const UserScreen = observer(() => {
@@ -16,10 +16,13 @@ const UserScreen = observer(() => {
   const [visible, setVisible] = React.useState(false)
   const nav = useNavigation()
 // очищаем данные после выхода
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // await Keychain.resetGenericPassword();
     AsyncStorage.removeItem('userData')
     nav.navigate('Root')
   }
+  const test = AsyncStorage.getItem('userData')
+  console.log(test)
   const id = userStore.user.id
   const changePassword = async () => {
     if ((oldPassword !== userStore.user.passwords && password !== newPassword) || (oldPassword === '' || newPassword ==='' || password === '')) alert("заполните все поля или введи правильные пароли")
@@ -27,6 +30,7 @@ const UserScreen = observer(() => {
       const res = await axios.put(`http://10.0.2.2:8080/api/password/`, {
       id,
       newPassword,
+      oldPassword
       })
       if (res.status === 200) {
         alert('Пароль успешно изменен');
