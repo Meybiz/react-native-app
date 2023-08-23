@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import style from '../styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import * as Keychain from 'react-native-keychain'
 
 
 const UserScreen = observer(() => {
@@ -15,6 +14,7 @@ const UserScreen = observer(() => {
   const [newPassword, setNewPassword] = React.useState('')
   const [visible, setVisible] = React.useState(false)
   const nav = useNavigation()
+
 // очищаем данные после выхода
   const handleLogout = async () => {
     // await Keychain.resetGenericPassword();
@@ -23,10 +23,11 @@ const UserScreen = observer(() => {
   }
   const test = AsyncStorage.getItem('userData')
   console.log(test)
-  const id = userStore.user.id
+  
   const changePassword = async () => {
     if ((oldPassword !== userStore.user.passwords && password !== newPassword) || (oldPassword === '' || newPassword ==='' || password === '')) alert("заполните все поля или введи правильные пароли")
     try {
+      const id = userStore.user.id
       const res = await axios.put(`http://10.0.2.2:8080/api/password/`, {
       id,
       newPassword,
@@ -47,6 +48,22 @@ const UserScreen = observer(() => {
     }
   
   }
+
+  useEffect(() => {
+    const restoreUserData = async () => {
+      try {
+        const userDataJson = await AsyncStorage.getItem('userData');
+        if (userDataJson) {
+          const userData = JSON.parse(userDataJson);
+          userStore.userData(userData);
+        }
+      } catch (error) {
+        console.error('Ошибка восстановления данных пользователя:', error);
+      }
+    };
+    restoreUserData();
+  }, []);
+  
 
   return (
     <View style={{marginTop: 150, borderColor: 'red'}}>
