@@ -21,8 +21,6 @@ const UserScreen = observer(() => {
     AsyncStorage.removeItem('userData')
     nav.navigate('Root')
   }
-  const test = AsyncStorage.getItem('userData')
-  console.log(test)
   
   const changePassword = async () => {
     if ((oldPassword !== userStore.user.passwords && password !== newPassword) || (oldPassword === '' || newPassword ==='' || password === '')) alert("заполните все поля или введи правильные пароли")
@@ -51,11 +49,14 @@ const UserScreen = observer(() => {
 
   useEffect(() => {
     const restoreUserData = async () => {
+      
       try {
         const userDataJson = await AsyncStorage.getItem('userData');
+        const userDate = await AsyncStorage.getItem('birthday');
         if (userDataJson) {
+         
           const userData = JSON.parse(userDataJson);
-          userStore.userData(userData);
+          userStore.userData(userData, userDate);
         }
       } catch (error) {
         console.error('Ошибка восстановления данных пользователя:', error);
@@ -63,7 +64,7 @@ const UserScreen = observer(() => {
     };
     restoreUserData();
   }, []);
-  
+  console.log(userStore.birthday)
 
   return (
     <View style={{marginTop: 150, borderColor: 'red'}}>
@@ -73,10 +74,10 @@ const UserScreen = observer(() => {
       {userStore.user ? (
 
         <View>
-          <Text>HELLOOOOO</Text>
+          <Text>Добро пожаловать, {userStore?.user?.firstname}!</Text>
           <Text>Почта: {userStore?.user?.email}</Text>
-          <Text>Имя: {userStore?.user?.firstname}</Text>
-          <Text>Дата рождения: {userStore?.user?.birthday}</Text>
+          <Text>Имя: {userStore?.user?.firstname} {userStore?.user?.secondname}</Text>
+          <Text>Дата рождения: {userStore?.birthday}</Text>
           <Text>Баллы: {userStore?.user?.coin}</Text>
           {/* <Button title='Сменить Пароль' /> */}
           <Modal

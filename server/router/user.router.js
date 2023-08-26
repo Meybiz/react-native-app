@@ -3,6 +3,7 @@ const router = new Router()
 const userController = require('../controller/user.controller')
 
 router.post('/check', userController.checkUser)
+router.post('/checkpass', userController.checkPassword)
 router.get('/user', userController.getUser)
 router.get('/user/:id', userController.getOneUser)
 router.put('/user', userController.updateUser)

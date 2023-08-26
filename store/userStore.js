@@ -1,15 +1,19 @@
 import { makeAutoObservable } from "mobx";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class UserStore {
     user = {};
-
+    phone;
+    birthday = ''
     constructor() {
         makeAutoObservable(this)
     }
 
-    userData(data) {
+    userData(data, birthday) {
         this.user = data
+        this.birthday = birthday
+    }
+    handlePhone(phone)  {
+        this.phone = phone
     }
 }
 
