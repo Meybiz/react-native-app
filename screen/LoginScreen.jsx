@@ -23,12 +23,9 @@ const LoginScreen = observer(() => {
         const userData = checkPassword.data
         const serverDay = dayjs(userData.birthday).utc();
         const localFormattedDate = serverDay.local().format('DD.MM.YYYY');
-         await AsyncStorage.setItem('userData', JSON.stringify(userData))
-         
-         
-         await AsyncStorage.setItem('birthday', localFormattedDate)
-         console.log(localFormattedDate)
-         userStore.userData(userData, localFormattedDate)
+        userData.birthday = localFormattedDate
+         await AsyncStorage.setItem('userData', JSON.stringify(userData))      
+         userStore.userData(userData)
           nav.navigate('User')
       } else {
         alert('Неправильный пароль')

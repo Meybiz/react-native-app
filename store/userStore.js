@@ -15,6 +15,9 @@ class UserStore {
     handlePhone(phone)  {
         this.phone = phone
     }
+    handleData(birthday)  {
+        this.birthday = birthday
+    }
 }
 
 

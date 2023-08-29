@@ -8,7 +8,6 @@ import { userStore } from '../store/rootStore';
 const RootScreen = observer(() => {
   const [phone, setPhone] = useState('');
   const nav = useNavigation()
-
   const handleSubmit = async () => {    
     try {
       const res = await axios.post('http://10.0.2.2:8080/api/check', {phone});

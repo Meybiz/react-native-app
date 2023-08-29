@@ -77,7 +77,7 @@ const UserScreen = observer(() => {
           <Text>Добро пожаловать, {userStore?.user?.firstname}!</Text>
           <Text>Почта: {userStore?.user?.email}</Text>
           <Text>Имя: {userStore?.user?.firstname} {userStore?.user?.secondname}</Text>
-          <Text>Дата рождения: {userStore?.birthday}</Text>
+          <Text>Дата рождения: {userStore?.user?.birthday}</Text>
           <Text>Баллы: {userStore?.user?.coin}</Text>
           {/* <Button title='Сменить Пароль' /> */}
           <Modal
