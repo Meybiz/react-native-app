@@ -23,7 +23,7 @@ const App = observer(() => {
             <Stack.Screen name='Loading' component={LoadingScreen} options={{ headerShown: false }} />
             <Stack.Screen name='User' component={UserScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Root' component={RootScreen} options={{ headerShown: false }} />
-            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

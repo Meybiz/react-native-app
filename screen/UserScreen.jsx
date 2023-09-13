@@ -23,7 +23,9 @@ const UserScreen = observer(() => {
   }
   
   const changePassword = async () => {
+    // Костыльная проверка для смены пароля
     if ((oldPassword !== userStore.user.passwords && password !== newPassword) || (oldPassword === '' || newPassword ==='' || password === '')) alert("заполните все поля или введи правильные пароли")
+    // Запрос к Бд для смены пароля
     try {
       const id = userStore.user.id
       const res = await axios.put(`http://10.0.2.2:8080/api/password/`, {
@@ -49,7 +51,7 @@ const UserScreen = observer(() => {
 
   useEffect(() => {
     const restoreUserData = async () => {
-      
+      // достаем данные из хранилща для отображения нашего UI
       try {
         const userDataJson = await AsyncStorage.getItem('userData');
         const userDate = await AsyncStorage.getItem('birthday');
@@ -67,20 +69,26 @@ const UserScreen = observer(() => {
   console.log(userStore.birthday)
 
   return (
-    <View style={{marginTop: 150, borderColor: 'red'}}>
+    <View style={{marginTop: 50, borderColor: 'red'}}>
       <TouchableOpacity onPress={handleLogout} style={{marginTop: 100}}>
           <Text style={{ marginRight: 10, color: 'red' }}>Выход</Text>
         </TouchableOpacity>
       {userStore.user ? (
-
         <View>
+        <View style={{backgroundColor: 'green', height: 400, display: 'flex', justifyContent: 'space-around'}}>
           <Text>Добро пожаловать, {userStore?.user?.firstname}!</Text>
           <Text>Почта: {userStore?.user?.email}</Text>
           <Text>Имя: {userStore?.user?.firstname} {userStore?.user?.secondname}</Text>
           <Text>Дата рождения: {userStore?.user?.birthday}</Text>
           <Text>Баллы: {userStore?.user?.coin}</Text>
+          <Pressable style={[style.button, style.buttonOpen]} onPress={() => setVisible(true)}>
+            <Text>Сменить пароль</Text>
+          </Pressable>
           {/* <Button title='Сменить Пароль' /> */}
-          <Modal
+          
+        </View>
+        <View>
+        <Modal
           animationType='slide'
           transparent={true}
           visible={visible}
@@ -100,11 +108,8 @@ const UserScreen = observer(() => {
               </View>
             </View>
           </Modal>
-          <Pressable style={[style.button, style.buttonOpen]} onPress={() => setVisible(true)}>
-            <Text>Сменить пароль</Text>
-          </Pressable>
-        </View>
-
+          </View>
+          </View>
       ) : (
         <Text>Загрузка....</Text>
       )}
